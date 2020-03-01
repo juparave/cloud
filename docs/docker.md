@@ -20,3 +20,24 @@ You’ll be prompted to continue, use the -f or --force flag to bypass the promp
     $ docker container stop $(docker container ls -aq)
     
    
+## Docker machine
+
+### Install on macOS
+
+    base=https://github.com/docker/machine/releases/download/v0.16.0 &&
+    curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/usr/local/bin/docker-machine &&
+    chmod +x /usr/local/bin/docker-machine
+    
+Test
+
+    $ docker-machine version
+    docker-machine version 0.16.0, build 702c267f
+
+It's good idea to also install `docker-machine` completion scripts
+
+    base=https://raw.githubusercontent.com/docker/machine/v0.16.0
+    for i in docker-machine-prompt.bash docker-machine-wrapper.bash docker-machine.bash
+    do
+       sudo wget "$base/contrib/completion/bash/${i}" -P /etc/bash_completion.d
+    done
+
