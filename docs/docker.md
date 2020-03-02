@@ -63,4 +63,29 @@ If you want to create your own Docker server
     # systemctl enable docker
     # chkconfig docker on
     
-    
+### Deployment
+
+on chofero user env
+
+-- local machine
+
+    $ docker save -o image.zip chofero-docker
+    $ scp image.zip chofero@beta.stupidfriendly.com:~/incoming
+
+-- on server
+
+    $ docker load -i ~/incoming/image.zip
+
+Another option to deployment is to setup `docker host` 
+
+* [ref](https://www.digitalocean.com/community/tutorials/how-to-use-a-remote-docker-server-to-speed-up-your-workflow)
+* [How To Set Up a Private Docker Registry on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-docker-registry-on-ubuntu-14-04)
+
+```
+$ export DOCKER_HOST=ssh://chofero@beta.stupidfriendly.com
+$ docker build --rm -f Dockerfile -t chofero:latest .
+```
+
+And with [watchtower](https://hub.docker.com/r/v2tec/watchtower/) the container will update automatically with the new image.
+
+
