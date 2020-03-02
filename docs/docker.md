@@ -22,7 +22,8 @@ You’ll be prompted to continue, use the -f or --force flag to bypass the promp
    
 ## Docker machine
 
-### Install on macOS
+### Install on macOS 
+[ref](https://docs.docker.com/machine/install-machine/)
 
     base=https://github.com/docker/machine/releases/download/v0.16.0 &&
     curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/usr/local/bin/docker-machine &&
