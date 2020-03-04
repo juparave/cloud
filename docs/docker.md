@@ -19,7 +19,12 @@ You’ll be prompted to continue, use the -f or --force flag to bypass the promp
 
     $ docker container stop $(docker container ls -aq)
     
-   
+#### Remove dangling images
+
+A dangling image is an image that is not tagged and is not used by any container. To remove dangling images type:
+
+    $ docker image prune
+
 ## Docker machine
 
 ### Install on macOS 
