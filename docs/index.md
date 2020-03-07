@@ -1,5 +1,7 @@
 # Cloud notes
 
+* [Docker](docker.md)
+* [CICD](cidi.md)
 
 ## Google Cloud
 
