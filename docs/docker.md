@@ -25,6 +25,14 @@ A dangling image is an image that is not tagged and is not used by any container
 
     $ docker image prune
 
+## Debug Docker images
+
+### Start/run with a different entry point
+
+Start a stopped Docker container with a different command
+
+    $ docker run -ti --entrypoint=sh telopromo:v0.1
+
 ## Docker machine
 
 ### Install on macOS 
