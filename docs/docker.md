@@ -76,6 +76,22 @@ If you want to create your own Docker server
     # systemctl enable docker
     # chkconfig docker on
     
+### DNS
+
+[ref](https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/)
+
+
+You need to change the DNS settings of the Docker daemon. You can set the default options for the docker daemon by creating a daemon configuration file at `/etc/docker/daemon.json`.
+
+You should create this file with the following contents to set two DNS, firstly your network’s DNS server, and secondly the Google DNS server to fall back to in case that server isn’t available:
+
+/etc/docker/daemon.json:
+
+    {
+        "dns": ["10.0.0.2", "8.8.8.8"]
+    }
+
+
 ### Deployment
 
 on chofero user env
