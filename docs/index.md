@@ -2,6 +2,8 @@
 
 * [Docker](docker.md)
 * [CICD](cidi.md)
+* [MySQL onDocker](mysql.md)
+* [libcloud](libcloud.md)
 
 ## Google Cloud
 
