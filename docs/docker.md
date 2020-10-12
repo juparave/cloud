@@ -208,8 +208,11 @@ server {
 
 }
 ```
-    
-    
+
+Copy certificate to host, running from host
+
+    $ docker cp chofero-run:/etc/letsencrypt/archive/stage.chofero.com .
+    $ cp ~chofero/incoming/stage.chofero.com/fullchain1.pem ~chofero/incoming/stage.chofero.com/privkey1.pem /etc/ssl/chofero
 
 #### Run the application
 
