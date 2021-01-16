@@ -55,6 +55,29 @@ It's good idea to also install `docker-machine` completion scripts
        sudo wget "$base/contrib/completion/bash/${i}" -P /etc/bash_completion.d
     done
 
+### Installing on Ubunto 18.04
+
+We will install Docker from Offical Repository
+
+Download dependencies
+
+    # aptitude update
+    # aptitude install apt-transport-https ca-certificates curl software-properties-common
+    
+Add Docker's GPG Key
+
+    # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+    
+Install the Docker Repository and update
+
+    # add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable" 
+    # aptitude update
+    
+Install Docker Community Edition
+
+    # aptitude install docker-ce
+
+
 ## Docker Engine
 
 [ref](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
