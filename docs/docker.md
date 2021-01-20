@@ -55,7 +55,7 @@ It's good idea to also install `docker-machine` completion scripts
        sudo wget "$base/contrib/completion/bash/${i}" -P /etc/bash_completion.d
     done
 
-### Installing on Ubunto 18.04
+### Installing on Ubuntu 18.04
 
 We will install Docker from Offical Repository
 
@@ -97,7 +97,7 @@ If you want to create your own Docker server
     # usermod -aG docker pablito
     # su - pablito
     # systemctl enable docker
-    # chkconfig docker on
+    # systemctl status docker
     
 ### DNS
 
@@ -139,6 +139,8 @@ $ docker build --rm -f Dockerfile -t chofero:latest .
 ```
 
 And with [watchtower](https://hub.docker.com/r/v2tec/watchtower/) the container will update automatically with the new image.
+
+    $ docker run -d --name watchtower -v /var/run/docker.sock:/var/run/docker.sock --restart unless-stopped containrrr/watchtower --no-pull
 
 
 #### Setting the network
