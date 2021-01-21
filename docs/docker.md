@@ -149,7 +149,32 @@ Create a docker network, Every container on that network will be able to communi
 
     $ docker network create -d bridge chofero-net
 
-#### Database
+### Host Database
+
+Docker creates a bridge named `docker0` by default. Both the docker host and the docker containers have an IP address on that bridge.
+
+    $ sudo ip addr show docker0
+    3: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+        link/ether 02:42:1e:63:39:5d brd ff:ff:ff:ff:ff:ff
+        inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+           valid_lft forever preferred_lft forever
+        inet6 fe80::42:1eff:fe63:395d/64 scope link
+           valid_lft forever preferred_lft forever
+
+laforge server is protected with csf allow docker network to connect by modifying `/etc/csf/csf.allow` adding:
+
+    tcp|in|d=3306|s=172.17.0.0/24
+    tcp|out|d=3306|d=172.17.0.0/24
+
+`172.17.0.0` is the docker network interface on 16 bits but we close it to 24 bits
+
+Then in MySQL side, the user has to have the correct permission
+
+    > CREATE USER 'telopromo'@'172.17.0.0/255.255.255.0' IDENTIFIED WITH mysql_native_password AS '***';
+    > GRANT ALL PRIVILEGES ON `telopromo`.* TO 'telopromo'@'172.17.0.1/255.255.255.0';
+    > GRANT ALL PRIVILEGES ON `telopromo\_%`.* TO 'telopromo'@'172.17.0.0/255.255.255.0';
+
+#### Docker Database
 
 1. Create a data directory on the host system, e.g. `/home/chofero/data`
 2. Start your mysql container like this (mysql v5.7): 
