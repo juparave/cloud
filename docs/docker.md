@@ -24,6 +24,11 @@ You’ll be prompted to continue, use the -f or --force flag to bypass the promp
 A dangling image is an image that is not tagged and is not used by any container. To remove dangling images type:
 
     $ docker image prune
+    
+### Remove images by pattern
+
+    $ docker images -a |  grep "chofero"
+    $ docker images -a |  grep "chofero" | awk '{print $3}' | xargs docker rmi
 
 ## Debug Docker images
 
