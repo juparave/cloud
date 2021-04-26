@@ -25,10 +25,16 @@ A dangling image is an image that is not tagged and is not used by any container
 
     $ docker image prune
     
-### Remove images by pattern
+#### Remove images by pattern
 
     $ docker images -a |  grep "chofero"
     $ docker images -a |  grep "chofero" | awk '{print $3}' | xargs docker rmi
+
+#### Remove images by age
+
+    # 720 hours = 30 days and older
+    $ docker image prune --all --filter "until=720h"
+    
 
 ## Debug Docker images
 
