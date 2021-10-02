@@ -38,6 +38,14 @@ A dangling image is an image that is not tagged and is not used by any container
 
 ## Debug Docker images
 
+Common flags:
+
+```
+-t              : Allocate a pseudo-tty
+-i              : Keep STDIN open even if not attached
+--rm             : Automatically clean up the container and remove the file system when the container exits
+```
+
 ### Start/run with a different entry point
 
 Start a stopped Docker container with a different command
@@ -46,7 +54,11 @@ Start a stopped Docker container with a different command
     
 ### Open a shell into a running container
 
-    $ docker exec -it telopromo-run /bin/sh
+    $ docker exec -ti telopromo-run /bin/sh
+
+### Open a shell on a conatiner image, for testing
+
+    $ docker run -ti --rm --entrypoint=sh python:3.8-alpine3.14
 
 ## Docker machine
 
