@@ -4,6 +4,7 @@
 * [CICD](cidi.md)
 * [MySQL on Docker](mysql.md)
 * [libcloud](libcloud.md)
+* [Cloudspaces](cloudspaces.md)
 
 ## Google Cloud
 
