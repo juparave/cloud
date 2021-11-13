@@ -9,4 +9,6 @@ File permissions
 
 ### Using Docker Compose
 
-Create a whole develoment environment ref: https://dev.to/cmiles74/really-using-visual-studio-development-containers-561e
+* Create a whole develoment environment ref: https://dev.to/cmiles74/really-using-visual-studio-development-containers-561e
+* Check this `.devcontainer` configuration too ref: https://github.com/pietheinstrengholt/rssmonster/
+
