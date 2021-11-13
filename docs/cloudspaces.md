@@ -4,6 +4,10 @@
 
 File permissions
 
+    $ sudo apt-get update
+    $ sudo apt-get install acl
+    $ sudo chown -R $(whoami) .
+    $ sudo setfacl -bnR .
     $ find . -type d -exec echo -n '"{}" ' \; | xargs chmod 755
     $ find . -type f -exec echo -n '"{}" ' \; | xargs chmod 644
 
