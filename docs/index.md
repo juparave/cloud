@@ -5,6 +5,7 @@
 * [MySQL on Docker](mysql.md)
 * [libcloud](libcloud.md)
 * [Cloudspaces](cloudspaces.md)
+* [Google Cloud Platform](gcp.md)
 
 ## Google Cloud
 
