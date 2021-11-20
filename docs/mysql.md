@@ -55,7 +55,15 @@ With the `--link` parameter the new container will have an alias name in `/etc/h
     ff02::1    ip6-allnodes
     ff02::2    ip6-allrouters
     172.17.0.21    mysql 0a7aa1cf196e beta-mysql
-    
+
+## Storing datafiles in host filesystem
+
+    Create a data directory on the host system, e.g. /home/myproject/datafiles
+
+    Start your mysql container like this:
+
+    $ docker run --name project-mysql -v /home/myproject/datafiles:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d --network project-net --restart unless-stopped mysql:5.7
+
 ## Expose MySQL container to the outside world
 
 You can also expose the MySQL container to the outside world by mapping the container’s MySQL port to the host machine port using the publish flag (as illustrated in the above diagram). Let’s re-initiate our container and run it again with an exposed port:
