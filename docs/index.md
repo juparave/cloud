@@ -6,6 +6,7 @@
 * [libcloud](libcloud.md)
 * [Cloudspaces](cloudspaces.md)
 * [Google Cloud Platform](gcp.md)
+* [Docker Registry](docker-registry.md)
 
 ## Google Cloud
 
