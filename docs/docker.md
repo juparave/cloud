@@ -1,7 +1,8 @@
 # Docker tips
 
-[How To Remove Docker Containers, Images, Volumes, and Networks
+* [How To Remove Docker Containers, Images, Volumes, and Networks
 ](https://linuxize.com/post/how-to-remove-docker-images-containers-volumes-and-networks/)
+* [Send mail from docker container](docker-mail.md)
 
 #### Remove all stopped containers
 
