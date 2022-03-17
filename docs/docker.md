@@ -316,6 +316,10 @@ View logs
     $ docker pull phpmyadmin/phpmyadmin:latest
     
     $ docker run --name chofero-phpmyadmin -e PMA_HOST=chofero-mysql -d --network chofero-net --restart unless-stopped -p 8081:80 phpmyadmin/phpmyadmin
+
+Run `phpmyadmin` for local instance of MySQL, (MacOs)
+
+    $ docker run --name my-phpmyadmin -d -e PMA_HOST=host.docker.internal -e PMA_PORT=3306 -p 8080:80 phpmyadmin
     
 #### Watchtower
 
