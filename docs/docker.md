@@ -1,5 +1,6 @@
 # Docker tips
 
+* [Dockerfile](dockerfile.md)
 * [How To Remove Docker Containers, Images, Volumes, and Networks
 ](https://linuxize.com/post/how-to-remove-docker-images-containers-volumes-and-networks/)
 * [Send mail from docker container](docker-mail.md)
