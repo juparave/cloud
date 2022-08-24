@@ -1,5 +1,7 @@
 # Cloudspaces
 
+[Config files](codespace/index.md)
+
 "universal" image that is used by default if no custom Dockerfile or image is specified. https://github.com/microsoft/vscode-dev-containers/tree/main/containers/codespaces-linux 
 
 ### Misc preparation
