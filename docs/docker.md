@@ -65,6 +65,16 @@ Start a stopped Docker container with a different command
 or
 
     $ docker run --rm -i -t python:3.9-slim-buster /bin/sh
+    
+For size
+
+    $ docker image build --no-cache -t build-context -f - . <<EOF
+        FROM busybox
+        WORKDIR /build-context
+        COPY . .
+        CMD find .
+        EOF
+    $ docker container run --rm -it build-context /bin/sh
 
 ## Docker machine
 
