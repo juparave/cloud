@@ -62,6 +62,10 @@ Start a stopped Docker container with a different command
 
     $ docker run -ti --rm --entrypoint=sh python:3.8-alpine3.14
 
+or
+
+    $ docker run --rm -i -t python:3.9-slim-buster /bin/sh
+
 ## Docker machine
 
 ### Install on macOS 
