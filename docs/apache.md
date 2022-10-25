@@ -16,7 +16,9 @@ To enable these four modules, execute the following commands in succession.
     # a2enmod proxy
     # a2enmod proxy_http
     # a2enmod proxy_balancer
-    # sudo a2enmod lbmethod_byrequests
+    # a2enmod lbmethod_byrequests
+    # a2enmod ssl
+    # a2enmod headers
 
 
 To put these changes into effect, restart Apache.
