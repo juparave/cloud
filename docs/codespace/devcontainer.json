@@ -33,12 +33,8 @@
 	},
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"ms-python.python",
-		"ms-python.vscode-pylance",
-		"ms-toolsai.jupyter",
 		"wakatime.vscode-wakatime",
-		"alexcvzz.vscode-sqlite",
-		"johnpapa.angular2"
+        "vscodevim.vim"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
