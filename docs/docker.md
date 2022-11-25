@@ -1,32 +1,32 @@
 # Docker tips
 
-* [Dockerfile](dockerfile.md)
-* [How To Remove Docker Containers, Images, Volumes, and Networks
-](https://linuxize.com/post/how-to-remove-docker-images-containers-volumes-and-networks/)
-* [Send mail from docker container](docker-mail.md)
+- [Dockerfile](dockerfile.md)
+- [How To Remove Docker Containers, Images, Volumes, and Networks
+  ](https://linuxize.com/post/how-to-remove-docker-images-containers-volumes-and-networks/)
+- [Send mail from docker container](docker-mail.md)
 
 #### Remove all stopped containers
 
 Before performing the removal command, you can get a list of all non-running (stopped) containers that will be removed using the following command:
 
-    $ docker container ls -a --filter status=exited --filter status=created 
- 
+    $ docker container ls -a --filter status=exited --filter status=created
+
 To remove all stopped containers use the docker container prune command:
 
     $ docker container prune
-    
+
 You’ll be prompted to continue, use the -f or --force flag to bypass the prompt.
 
 #### Stop all containers
 
     $ docker container stop $(docker container ls -aq)
-    
+
 #### Remove dangling images
 
 A dangling image is an image that is not tagged and is not used by any container. To remove dangling images type:
 
     $ docker image prune
-    
+
 #### Remove images by pattern
 
     $ docker images -a |  grep "chofero"
@@ -36,7 +36,6 @@ A dangling image is an image that is not tagged and is not used by any container
 
     # 720 hours = 30 days and older
     $ docker image prune --all --filter "until=720h"
-    
 
 ## Debug Docker images
 
@@ -53,7 +52,7 @@ Common flags:
 Start a stopped Docker container with a different command
 
     $ docker run -ti --entrypoint=sh telopromo:v0.1
-    
+
 ### Open a shell into a running container
 
     $ docker exec -ti telopromo-run /bin/sh
@@ -65,7 +64,7 @@ Start a stopped Docker container with a different command
 or
 
     $ docker run --rm -i -t python:3.9-slim-buster /bin/sh
-    
+
 For size
 
     $ docker image build --no-cache -t build-context -f - . <<EOF
@@ -78,13 +77,14 @@ For size
 
 ## Docker machine
 
-### Install on macOS 
+### Install on macOS
+
 [ref](https://docs.docker.com/machine/install-machine/)
 
     base=https://github.com/docker/machine/releases/download/v0.16.0 &&
     curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/usr/local/bin/docker-machine &&
     chmod +x /usr/local/bin/docker-machine
-    
+
 Test
 
     $ docker-machine version
@@ -106,20 +106,19 @@ Download dependencies
 
     # aptitude update
     # aptitude install apt-transport-https ca-certificates curl software-properties-common
-    
+
 Add Docker's GPG Key
 
     # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-    
+
 Install the Docker Repository and update
 
-    # add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable" 
+    # add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable"
     # aptitude update
-    
+
 Install Docker Community Edition
 
     # aptitude install docker-ce
-
 
 ## Docker Engine
 
@@ -141,11 +140,10 @@ If you want to create your own Docker server
     # su - pablito
     # systemctl enable docker
     # systemctl status docker
-    
+
 ### DNS
 
 [ref](https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/)
-
 
 You need to change the DNS settings of the Docker daemon. You can set the default options for the docker daemon by creating a daemon configuration file at `/etc/docker/daemon.json`.
 
@@ -156,7 +154,6 @@ You should create this file with the following contents to set two DNS, firstly 
     {
         "dns": ["10.0.0.2", "8.8.8.8"]
     }
-
 
 ### Deployment
 
@@ -171,10 +168,10 @@ on chofero user env
 
     $ docker load -i ~/incoming/image.zip
 
-Another option to deployment is to setup `docker host` 
+Another option to deployment is to setup `docker host`
 
-* [ref](https://www.digitalocean.com/community/tutorials/how-to-use-a-remote-docker-server-to-speed-up-your-workflow)
-* [How To Set Up a Private Docker Registry on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-docker-registry-on-ubuntu-14-04)
+- [ref](https://www.digitalocean.com/community/tutorials/how-to-use-a-remote-docker-server-to-speed-up-your-workflow)
+- [How To Set Up a Private Docker Registry on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-docker-registry-on-ubuntu-14-04)
 
 ```
 $ export DOCKER_HOST=ssh://chofero@beta.stupidfriendly.com
@@ -184,7 +181,6 @@ $ docker build --rm -f Dockerfile -t chofero:latest .
 And with [watchtower](https://hub.docker.com/r/v2tec/watchtower/) the container will update automatically with the new image.
 
     $ docker run -d --name watchtower -v /var/run/docker.sock:/var/run/docker.sock --restart unless-stopped containrrr/watchtower --no-pull
-
 
 #### Setting the network
 
@@ -220,15 +216,14 @@ Then in MySQL side, the user has to have the correct permission
 #### Docker Database
 
 1. Create a data directory on the host system, e.g. `/home/chofero/data`
-2. Start your mysql container like this (mysql v5.7): 
+2. Start your mysql container like this (mysql v5.7):
 
+   $ docker run --name chofero-mysql -v /home/chofero/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d --network chofero-net --restart unless-stopped mysql:5.7
 
-    $ docker run --name chofero-mysql -v /home/chofero/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d --network chofero-net --restart unless-stopped mysql:5.7
-    
 Run commands inside container
 
     $ docker exec -it chofero-mysql bash
-    
+
 Create database
 
     mysql> CREATE DATABASE IF NOT EXISTS `chofero` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -266,11 +261,11 @@ Copy private key and crt to `/etc/ssl/chofero`
 certbot is a tool for handlig free SSL certificates. ref: https://absolutecommerce.co.uk/blog/auto-renew-letsencrypt-nginx-certbot
 
     # apk add certbot certbot-nginx
-    
+
 Run certbox for nginx configuration
 
     # certbot --nginx
-    
+
 Configuration generated by certbot `/etc/nginx/conf.d/nginx.conf`
 
 ```
@@ -312,16 +307,17 @@ Copy certificate to host, running from host
 With new image, this will create a new container
 
     $ docker run -d -p 80:80 -p 443:443 --name chofero-run -v /etc/ssl/chofero:/etc/ssl/chofero --network chofero-net --restart unless-stopped chofero
-    
+
 Stop and Delete previous container
 
     $ docker stop chofero-run
-    $ docker rm chofero-run 
-        
+    $ docker rm chofero-run
+
+
 With existing container
 
     $ docker container start chofero-run
-    
+
 View logs
 
     $ docker logs chofero-run
@@ -329,14 +325,13 @@ View logs
 #### PHPMyAdmin
 
     $ docker pull phpmyadmin/phpmyadmin:latest
-    
+
     $ docker run --name chofero-phpmyadmin -e PMA_HOST=chofero-mysql -d --network chofero-net --restart unless-stopped -p 8081:80 phpmyadmin/phpmyadmin
 
 Run `phpmyadmin` for local instance of MySQL, (MacOs)
 
     $ docker run --name my-phpmyadmin -d -e PMA_HOST=host.docker.internal -e PMA_PORT=3306 -p 8080:80 phpmyadmin
-    
+
 #### Watchtower
 
-    $ docker run -d --name watchtower -v /var/run/docker.sock:/var/run/docker.sock --restart unless-stopped --no-pull containrrr/watchtower 
-    
+    $ docker run -d --name watchtower -v /var/run/docker.sock:/var/run/docker.sock --restart unless-stopped --no-pull containrrr/watchtower
