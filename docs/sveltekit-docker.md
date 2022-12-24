@@ -51,7 +51,6 @@ COPY startup.prod.sh .
 RUN echo '{ "type":"module" }' > sveltekit/package.json
 
 EXPOSE 3000
-# EXPOSE 5000
 
 # Run
 ENTRYPOINT ["./startup.prod.sh", "--production", "true"]
