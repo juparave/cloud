@@ -8,6 +8,7 @@
 * [MyCodespace](mycodespace.md)
 * [Google Cloud Platform](gcp.md)
 * [Docker Registry](docker-registry.md)
+* [Sveltekit and Docker](sveltekit-docker.md)
 
 ## Google Cloud
 
