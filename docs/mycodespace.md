@@ -61,6 +61,10 @@ On client machine:
     :tmux attach attach to a tmux session if exists
     :-t work attach to the detached session `work`
 
+If error `not a terminal` then use `-t`
+
+    $ ssh -t remote.com tmux attach -t work
+
 To end remote session and not the tmux session, just detatch from it with:
 
     ctrl-b d
