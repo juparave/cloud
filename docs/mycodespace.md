@@ -2,6 +2,16 @@
 
 Using remote tmux to emulate codespace feel
 
+### Github auth
+
+Using `gh` authenticate workspace with:
+
+    $ gh auth login
+
+Clone working repo
+
+    $ gh repo clone <owner>/<reponame>
+
 ### Dependencies
 
 NodeJS
