@@ -335,3 +335,23 @@ Run `phpmyadmin` for local instance of MySQL, (MacOs)
 #### Watchtower
 
     $ docker run -d --name watchtower -v /var/run/docker.sock:/var/run/docker.sock --restart unless-stopped --no-pull containrrr/watchtower
+
+## Docker logs
+
+ref: https://www.baeldung.com/ops/docker-logs
+
+Clear logs
+
+    # truncate -s 0 /var/lib/docker/containers/*/*-json.log 
+
+Provide the configuration of log max-size and max-file in the /etc/docker/daemon.json file
+
+```json
+{
+    "log-driver": "json-file",
+    "log-opts": {
+        "max-size": "100k",
+        "max-file": "5" 
+    }
+}
+```
