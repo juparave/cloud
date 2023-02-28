@@ -350,7 +350,7 @@ Provide the configuration of log max-size and max-file in the /etc/docker/daemon
 {
     "log-driver": "json-file",
     "log-opts": {
-        "max-size": "100k",
+        "max-size": "100k", // or "10m"
         "max-file": "5" 
     }
 }
