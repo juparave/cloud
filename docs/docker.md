@@ -75,6 +75,11 @@ For size
         EOF
     $ docker container run --rm -it build-context /bin/sh
 
+For testing in old python with mapped path
+
+    $ docker run -ti --rm -v "$(pwd)":/app -p 8080:8080 --entrypoint=sh python:2.7
+
+
 ## Docker machine
 
 ### Install on macOS
