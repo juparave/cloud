@@ -15,6 +15,14 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githu
 sudo apt update
 sudo apt install -y gh
 
+# Install neovim
+sudo apt install software-properties-common -y
+# Import Stable Neovim PPA
+# sudo add-apt-repository ppa:neovim-ppa/stable -y
+sudo add-apt-repository ppa:neovim-ppa/unstable -y
+sudo apt-get update
+sudo apt install neovim -y
+
 # Install tmux
 sudo apt-get install -y tmux
 
@@ -25,4 +33,5 @@ ln -s ~/.dotfiles/.inputrc ~/.inputrc
 ln -s ~/.dotfiles/.vimrc ~/.vimrc
 mkdir -p ~/.vim
 ln -s ~/.dotfiles/.vim/* ~/.vim
+ln -s ~/.dotfiles/.config/nvim_lua/ ~/.config/nvim
 ln -s ~/.dotfiles/.tmux* ~/
