@@ -79,6 +79,9 @@ For testing in old python with mapped path
 
     $ docker run -ti --rm -v "$(pwd)":/app -p 8080:8080 --entrypoint=sh python:2.7
 
+### Restart a docker container
+
+    $ docker restart telopromo-run
 
 ## Docker machine
 
@@ -326,6 +329,10 @@ With existing container
 View logs
 
     $ docker logs chofero-run
+
+Grep logs
+
+    $ docker logs chofero-run 2>&1 | grep "auth"
 
 #### PHPMyAdmin
 
