@@ -68,11 +68,11 @@ or
 For size
 
     $ docker image build --no-cache -t build-context -f - . <<EOF
-        FROM busybox
-        WORKDIR /build-context
-        COPY . .
-        CMD find .
-        EOF
+    FROM busybox
+    WORKDIR /build-context
+    COPY . .
+    CMD find .
+    EOF
     $ docker container run --rm -it build-context /bin/sh
 
 For testing in old python with mapped path
