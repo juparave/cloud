@@ -367,3 +367,21 @@ Provide the configuration of log max-size and max-file in the /etc/docker/daemon
     }
 }
 ```
+
+## Troubleshooting
+
+### iptables
+
+    docker: Error response from daemon: driver failed programming external
+    connectivity on endpoint acosta-wordpress-prod-run
+    (90c088970113c4da5764fdf3a4a225b988945d7e94420998f590613474159a51):
+    (iptables failed: iptables --wait -t nat -A DOCKER -p tcp -d 0/0 --dport
+    8081 -j DNAT --to-destination 172.17.0.2:80 ! -i docker0: iptables: No
+    chain/target/match by that name.
+
+Solved by clearin iptables and restarting docker service
+
+    # iptables -t filter -F
+    # iptables -t filter -X
+    # service docker restart
+
