@@ -385,3 +385,19 @@ Solved by clearin iptables and restarting docker service
     # iptables -t filter -X
     # service docker restart
 
+### DNS resolutions
+
+Set the containers default DNS in `/etc/docker/daemon.json`  
+
+```
+{
+        "dns": ["8.8.4.4", "8.8.8.8"],
+        "log-driver": "json-file",
+        "log-opts": {
+                "max-size": "10m",
+                "max-file": "5"
+        }
+}
+```
+
+Also, follow the tips to [Set permanent DNS nameserver in Ubuntu](https://juparave.github.io/linux/dns.html)
