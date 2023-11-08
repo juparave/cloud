@@ -379,7 +379,7 @@ Provide the configuration of log max-size and max-file in the /etc/docker/daemon
     8081 -j DNAT --to-destination 172.17.0.2:80 ! -i docker0: iptables: No
     chain/target/match by that name.
 
-Solved by clearin iptables and restarting docker service
+Solved by clearing iptables and restarting docker service
 
     # iptables -t filter -F
     # iptables -t filter -X
@@ -401,3 +401,7 @@ Set the containers default DNS in `/etc/docker/daemon.json`
 ```
 
 Also, follow the tips to [Set permanent DNS nameserver in Ubuntu](https://juparave.github.io/linux/dns.html)
+
+### Firewall
+
+I need to open on `exposed` port as well as Docker `host`
