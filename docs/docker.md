@@ -404,4 +404,6 @@ Also, follow the tips to [Set permanent DNS nameserver in Ubuntu](https://jupara
 
 ### Firewall
 
-I need to open on `exposed` port as well as Docker `host`
+On a machine I have two Docker networks 172.17.0.0 and 172.18.0.0 (bridge).  
+Found a script related [csf_docker.sh](https://raw.githubusercontent.com/sensson/puppet-csf/master/templates/csf_docker.sh)
+
