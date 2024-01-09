@@ -37,6 +37,19 @@ A dangling image is an image that is not tagged and is not used by any container
     # 720 hours = 30 days and older
     $ docker image prune --all --filter "until=720h"
 
+#### Clean docker script
+
+```bash
+#!/bin/bash
+# Remove all stopped containers
+echo "Removing all stopped containers"
+docker container prune -f
+
+# Remove all dangling images
+echo "Removing all dangling images"
+docker image prune -a -f
+```
+
 ## Debug Docker images
 
 Common flags:
