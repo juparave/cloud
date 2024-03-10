@@ -1,4 +1,8 @@
 # Gcloud notes
+## Update components
+
+    $ gcloud components updates
+
 
 ## Enabling the Artifact Registry
 
@@ -20,11 +24,13 @@ List the repositories:
 
 Before you push the Docker image to Artifact Registry, you must tag it with the repository name. We will use `us-central1-docker.pkg.dev` zone.
 
-    $ docker tag my_docker_image:latest us-central1-docker.pkg.dev/my-project/dockerfiles/my_docker_image:latest
+If you use Artifact Registry, the [repository](https://cloud.google.com/artifact-registry/docs/repositories/create-repos#docker) REPO_NAME must already be created. The URL has the shape `REGION-docker.pkg.dev/PROJECT_ID/REPO_NAME/PATH:TAG` .
+
+    $ docker tag my_docker_image:latest us-central1-docker.pkg.dev/my-project/my-dockerfiles/my_docker_image:latest
 
 Push image to Artifact Registry
 
-    $ docker rmi us-central1-docker.pkg.dev/my-project/dockerfiles/my_docker_image:latest
+    $ docker rmi us-central1-docker.pkg.dev/my-project/my-dockerfiles/my_docker_image:latest
 
 Clean up remote repository
 
