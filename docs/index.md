@@ -9,6 +9,7 @@
 * [Google Cloud Platform](gcp.md)
 * [Docker Registry](docker-registry.md)
 * [Sveltekit and Docker](sveltekit-docker.md)
+* [fly.io](fly.io/index.md)
 
 ## Google Cloud
 
