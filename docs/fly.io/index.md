@@ -50,3 +50,24 @@ Connect to database server from app [ref](https://fly.io/docs/postgres/connectin
 List common machines sizes
 
     $ fly platform vm-sizes
+
+## Launch new app
+
+ref: https://fly.io/docs/launch/create/
+
+To create a new app, from the app's root directory run:
+
+    $ fly launch
+
+This will `launch` the new app to a couple of machines and a temp domain
+
+If you want to customize the launch, you could run it with `--no-deploy` and then
+edit `fly.toml`
+
+    $ fly launch --no-deploy
+
+## Deploy
+
+Deploy an app is easy as just:
+
+    $ fly deploy
