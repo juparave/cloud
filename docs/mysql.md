@@ -24,6 +24,13 @@ That command will fail because of mising root password
 
     $ docker run --detach --name=beta-mysql --env="MYSQL_ROOT_PASSWORD=mypassword" mysql
 
+This will not persists data as there are no mount mappings
+
+    * Dec 12, 2024.  `CPU does not support x86-64-v2 in the latest 8.4.0`
+    use `mysql:8.4.0-oraclelinux8` e.g.
+
+    $ docker run --detach --name=beta-mysql --env="MYSQL_ROOT_PASSWORD=mypassword" mysql:8.4.0-oraclelinux8
+
 View container logs to confirm server is up and running
 
     $ docker logs -f beta-mysql
