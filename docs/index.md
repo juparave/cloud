@@ -1,26 +1,33 @@
-# Cloud notes
+# Cloud & Development Notes
 
-* [Docker](docker.md)
-* [CICD](cidi.md)
-* [MySQL on Docker](mysql.md)
-* [libcloud](libcloud.md)
-* [Codespaces](codespaces.md)
-* [MyCodespace](mycodespace.md)
-* [Google Cloud Platform](gcp.md)
-* [Docker Registry](docker-registry.md)
-* [Sveltekit and Docker](sveltekit-docker.md)
-* [fly.io](fly.io/index.md)
+## Docker
 
-## Google Cloud
+*   [Docker Basics](docker.md)
+*   [Dockerfile Examples](dockerfile.md)
+*   [Dockerfile: Angular + Golang](dockerfile-angular-golang.md)
+*   [Dockerfile: Flutter + Golang](dockerfile-flutter-golang.md)
+*   [Docker Registry](docker-registry.md)
+*   [Docker Mail Server](docker-mail.md)
+*   [SvelteKit and Docker](sveltekit-docker.md)
+*   [MySQL on Docker](mysql.md)
 
-### Install SDK
+## Cloud Platforms
 
-* [Google Cloud Docs](https://cloud.google.com/sdk/docs/)
+*   [Google Cloud Platform (GCP)](gcp.md)
+*   [Amazon Web Services (AWS)](aws.md)
+*   [fly.io](fly.io/index.md)
+*   [libcloud](libcloud.md)
 
-### Create project
+## Development Environments
 
-    $  gcloud projects create chofero
+*   [Codespaces General Info](codespaces.md)
+*   [My Codespace Setup](mycodespace.md)
+*   [Codespace Container Details](codespace/index.md)
 
+## Other Technologies & Concepts
+
+*   [Apache Web Server](apache.md)
+*   [Continuous Integration/Continuous Deployment (CICD)](cicd.md)
 
 ## References
 
@@ -34,4 +41,3 @@
 ### On integration
 
 * [Build a CRUD App with Python, Flask, and Angular](https://developer.okta.com/blog/2019/03/25/build-crud-app-with-python-flask-angular) March 25, 2019
-
