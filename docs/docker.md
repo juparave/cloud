@@ -5,6 +5,29 @@
   ](https://linuxize.com/post/how-to-remove-docker-images-containers-volumes-and-networks/)
 - [Send mail from docker container](docker-mail.md)
 
+## Table of Contents
+
+- [Remove all stopped containers](#remove-all-stopped-containers)
+- [Stop all containers](#stop-all-containers)
+- [Remove dangling images](#remove-dangling-images)
+- [Remove images by pattern](#remove-images-by-pattern)
+- [Remove images by age](#remove-images-by-age)
+- [Clean docker script](#clean-docker-script)
+- [Debug Docker images](#debug-docker-images)
+- [Restart a docker container](#restart-a-docker-container)
+- [Installing Docker Engine on Ubuntu](#installing-docker-engine-on-ubuntu)
+- [DNS](#dns)
+- [Deployment](#deployment)
+- [Host Database](#host-database)
+- [Docker Database](#docker-database)
+- [SSL on nginx](#ssl-on-nginx)
+- [certbot with nginx](#certbot-with-nginx)
+- [Run the application](#run-the-application)
+- [PHPMyAdmin](#phpmyadmin)
+- [Using Docker Compose](#using-docker-compose)
+- [Docker logs](#docker-logs)
+- [Troubleshooting](#troubleshooting)
+
 #### Remove all stopped containers
 
 Before performing the removal command, you can get a list of all non-running (stopped) containers that will be removed using the following command:
@@ -96,73 +119,51 @@ For testing in old python with mapped path
 
     $ docker restart telopromo-run
 
-## Docker machine
+## Installing Docker Engine on Ubuntu
 
-### Install on macOS
+[Official Docker Engine installation guide for Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 
-[ref](https://docs.docker.com/machine/install-machine/)
+```bash
+# Uninstall old versions
+sudo apt-get remove docker docker-engine docker.io containerd runc
 
-    base=https://github.com/docker/machine/releases/download/v0.16.0 &&
-    curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/usr/local/bin/docker-machine &&
-    chmod +x /usr/local/bin/docker-machine
+# Set up the repository
+sudo apt-get update
+sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
 
-Test
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
-    $ docker-machine version
-    docker-machine version 0.16.0, build 702c267f
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-It's good idea to also install `docker-machine` completion scripts
+# Install Docker Engine
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
-    base=https://raw.githubusercontent.com/docker/machine/v0.16.0
-    for i in docker-machine-prompt.bash docker-machine-wrapper.bash docker-machine.bash
-    do
-       sudo wget "$base/contrib/completion/bash/${i}" -P /etc/bash_completion.d
-    done
+# Verify installation
+sudo docker run hello-world
 
-### Installing on Ubuntu 18.04
+# Post-installation steps (Run Docker as a non-root user)
+sudo groupadd docker
+sudo usermod -aG docker $USER
+# Log out and log back in for this to take effect, or run: newgrp docker
 
-We will install Docker from Offical Repository
+# Configure Docker to start on boot
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+```
 
-Download dependencies
+### Docker Desktop (macOS / Windows / Linux)
 
-    # aptitude update
-    # aptitude install apt-transport-https ca-certificates curl software-properties-common
+For local development on macOS, Windows, and some Linux distributions, [Docker Desktop](https://www.docker.com/products/docker-desktop/) is often the easiest way to get started. It includes Docker Engine, the Docker CLI client, Docker Compose, and more.
 
-Add Docker's GPG Key
-
-    # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-
-Install the Docker Repository and update
-
-    # add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable"
-    # aptitude update
-
-Install Docker Community Edition
-
-    # aptitude install docker-ce
-
-## Docker Engine
-
-[ref](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
-
-If you want to create your own Docker server
-
-    # apt-get remove docker docker-engine docker.io containerd runc
-    # apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-    # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    # apt-key fingerprint 0EBFCD88
-    # add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    # apt-get update
-    # apt-get install docker-ce docker-ce-cli containerd.io
-    # apt-cache madison docker-ce
-    # docker run hello-world
-    # groupadd docker
-    # usermod -aG docker pablito
-    # su - pablito
-    # systemctl enable docker
-    # systemctl status docker
-
-### DNS
+## DNS
 
 [ref](https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/)
 
@@ -172,11 +173,13 @@ You should create this file with the following contents to set two DNS, firstly 
 
 /etc/docker/daemon.json:
 
-    {
-        "dns": ["10.0.0.2", "8.8.8.8"]
-    }
+```json
+{
+    "dns": ["10.0.0.2", "8.8.8.8"]
+}
+```
 
-### Deployment
+## Deployment
 
 on chofero user env
 
@@ -188,6 +191,21 @@ on chofero user env
 -- on server
 
     $ docker load -i ~/incoming/image.zip
+
+### Using a Docker Registry
+
+While `docker save`/`load` works, a more common approach is to push your built image to a Docker registry (like Docker Hub or a private registry) and pull it on the server.
+
+```bash
+# Example: Tag and push to Docker Hub
+docker tag chofero:latest your-dockerhub-username/chofero:latest
+docker push your-dockerhub-username/chofero:latest
+
+# On the server
+docker pull your-dockerhub-username/chofero:latest
+# Then run the container using the pulled image
+```
+See also: [Private Docker Registry Notes](docker-registry.md)
 
 Another option to deployment is to setup `docker host`
 
@@ -203,13 +221,7 @@ And with [watchtower](https://hub.docker.com/r/v2tec/watchtower/) the container 
 
     $ docker run -d --name watchtower -v /var/run/docker.sock:/var/run/docker.sock --restart unless-stopped containrrr/watchtower --no-pull
 
-#### Setting the network
-
-Create a docker network, Every container on that network will be able to communicate with each other using the container name as hostname.
-
-    $ docker network create -d bridge chofero-net
-
-### Host Database
+## Host Database
 
 Docker creates a bridge named `docker0` by default. Both the docker host and the docker containers have an IP address on that bridge.
 
@@ -220,6 +232,14 @@ Docker creates a bridge named `docker0` by default. Both the docker host and the
            valid_lft forever preferred_lft forever
         inet6 fe80::42:1eff:fe63:395d/64 scope link
            valid_lft forever preferred_lft forever
+
+### Connecting to the Host from a Container
+
+To allow a container to connect to a service running on the host machine:
+*   On **Docker Desktop (macOS, Windows)**, use the special DNS name `host.docker.internal`.
+*   On **Linux**, you can typically use the gateway IP of the `docker0` bridge (often `172.17.0.1` by default, check with `ip addr show docker0`).
+
+You might still need to configure host firewall rules (like the `csf` example below) to allow connections from the Docker network IPs (e.g., `172.17.0.0/16`).
 
 laforge server is protected with csf allow docker network to connect by modifying `/etc/csf/csf.allow` adding:
 
@@ -357,9 +377,59 @@ Run `phpmyadmin` for local instance of MySQL, (MacOs)
 
     $ docker run --name my-phpmyadmin -d -e PMA_HOST=host.docker.internal -e PMA_PORT=3306 -p 8080:80 phpmyadmin
 
-#### Watchtower
+## Using Docker Compose
 
-    $ docker run -d --name watchtower -v /var/run/docker.sock:/var/run/docker.sock --restart unless-stopped --no-pull containrrr/watchtower
+[Docker Compose](https://docs.docker.com/compose/) is a tool for defining and running multi-container Docker applications. It uses a YAML file (typically `docker-compose.yml`) to configure the application's services, networks, and volumes.
+
+Using Compose simplifies the management of related containers, like the application, database (MySQL), and utility (phpMyAdmin) examples shown previously using individual `docker run` commands.
+
+**Example `docker-compose.yml` structure:**
+
+```yaml
+version: '3.8'
+services:
+  app:
+    build: . # Or image: your-app-image
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app-net
+    volumes:
+      - /path/on/host:/path/in/container
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: your_secret_password
+      MYSQL_DATABASE: your_database
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-net
+
+  phpmyadmin:
+     image: phpmyadmin/phpmyadmin
+     ports:
+       - "8081:80"
+     environment:
+       PMA_HOST: db
+     networks:
+       - app-net
+     depends_on:
+       - db
+
+networks:
+  app-net:
+    driver: bridge
+
+volumes:
+  db_data:
+```
+
+You can then manage the application stack with commands like `docker compose up -d`, `docker compose down`, `docker compose logs`, etc.
 
 ## Docker logs
 
@@ -398,25 +468,7 @@ Solved by clearing iptables and restarting docker service
     # iptables -t filter -X
     # service docker restart
 
-### DNS resolutions
-
-Set the containers default DNS in `/etc/docker/daemon.json`  
-
-```
-{
-        "dns": ["8.8.4.4", "8.8.8.8"],
-        "log-driver": "json-file",
-        "log-opts": {
-                "max-size": "10m",
-                "max-file": "5"
-        }
-}
-```
-
-Also, follow the tips to [Set permanent DNS nameserver in Ubuntu](https://juparave.github.io/linux/dns.html)
-
 ### Firewall
 
 On a machine I have two Docker networks 172.17.0.0 and 172.18.0.0 (bridge).  
 Found a script related [csf_docker.sh](https://raw.githubusercontent.com/sensson/puppet-csf/master/templates/csf_docker.sh)
-
