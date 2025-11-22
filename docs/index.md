@@ -10,6 +10,7 @@
 *   [Docker Mail Server](docker-mail.md)
 *   [SvelteKit and Docker](sveltekit-docker.md)
 *   [MySQL on Docker](mysql.md)
+*   [MinIO](minio.md)
 
 ## Cloud Platforms
 
