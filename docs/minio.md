@@ -2,6 +2,10 @@
 
 This document provides a comparison and explanation of the necessary configuration directives for setting up a secure reverse proxy for a MinIO deployment using both Nginx and Apache HTTP Server, based on the provided configuration (minio.conf).
 
+### Backing up MinIO
+
+There's a good reference here [My Experience Backing Up MinIO](https://medium.com/@dev.fethi/my-experience-backing-up-minio-344f407d9bbf)
+
 ## 1. Architecture Overview
 
 MinIO runs two distinct services:
