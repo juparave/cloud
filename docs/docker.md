@@ -27,6 +27,9 @@
 - [Using Docker Compose](#using-docker-compose)
 - [Docker logs](#docker-logs)
 - [Troubleshooting](#troubleshooting)
+- [Docker SSH Transport Extremely Slow](#docker-ssh-transport-extremely-slow-30-seconds)
+- [iptables](#iptables)
+- [Firewall](#firewall)
 
 #### Remove all stopped containers
 
@@ -452,6 +455,77 @@ Provide the configuration of log max-size and max-file in the /etc/docker/daemon
 ```
 
 ## Troubleshooting
+
+### Docker SSH Transport Extremely Slow (30+ seconds)
+
+**Problem:** When using `DOCKER_HOST=ssh://user@host`, Docker commands take 30-33 seconds to execute, making the workflow unusable.
+
+**Root Cause:** Docker's SSH transport uses `golang.org/x/crypto/ssh` instead of the system's SSH binary. When connecting to a server with both IPv4 and IPv6 DNS records, Docker's Go SSH library tries IPv6 first, waits ~30 seconds for timeout, then falls back to IPv4.
+
+This is especially common when you've recently enabled IPv6 on your server.
+
+**Symptoms:**
+```bash
+$ export DOCKER_HOST=ssh://user@server.com
+$ time docker ps
+# Takes 30-33 seconds on first command
+
+$ time ssh user@server.com "docker ps"
+# Only takes ~1 second (system SSH is fine)
+```
+
+**Solution:**
+
+1. **Force IPv4 in SSH config** (`~/.ssh/config`):
+   ```ssh-config
+   Host server.com
+       HostName 11.11.111.11        # Use IPv4 address directly
+       AddressFamily inet           # Force IPv4 only
+       ControlMaster auto           # Enable connection multiplexing
+       ControlPath ~/.ssh/controlmasters/%r@%h:%p
+       ControlPersist 10m           # Keep connection alive 10 minutes
+       ServerAliveInterval 60
+       ServerAliveCountMax 3
+       GSSAPIAuthentication no      # Disable GSSAPI for faster auth
+   ```
+
+2. **Create control masters directory:**
+   ```bash
+   mkdir -p ~/.ssh/controlmasters
+   ```
+
+3. **Optional - Server-side optimization** (`/etc/ssh/sshd_config`):
+   ```
+   UseDNS no
+   GSSAPIAuthentication no
+   ```
+   Then restart SSH: `sudo systemctl restart sshd` (Linux) or `sudo launchctl stop com.openssh.sshd && sudo launchctl start com.openssh.sshd` (macOS)
+
+**Performance Results:**
+- Before: 33 seconds per Docker command
+- After: ~1 second for first connection, ~0.3-0.5s for subsequent commands (with ControlMaster)
+
+**Why system SSH doesn't respect Docker connections:**
+- Docker doesn't execute the `ssh` binary
+- Docker uses Go's native SSH library (`golang.org/x/crypto/ssh`)
+- Most SSH config options are ignored by Docker except `HostName` resolution
+- Connection multiplexing (ControlMaster) helps after the first connection is established
+
+**Quick test to verify IPv6 is the issue:**
+```bash
+# Test with hostname (slow if IPv6 issue)
+export DOCKER_HOST=ssh://user@server.com
+time docker ps
+
+# Test with IPv4 address (should be fast)
+export DOCKER_HOST=ssh://user@31.97.210.98
+time docker ps
+```
+
+**References:**
+- [Docker SSH transport implementation (moby/moby#32161)](https://github.com/moby/moby/pull/32161)
+- [Docker Compose SSH slow on macOS (docker/compose#6942)](https://github.com/docker/compose/issues/6942)
+- [Docker Forums: SSH connection reuse discussion](https://forums.docker.com/t/setting-docker-host-to-ssh-results-in-slow-workflow-can-ssh-connection-be-reused/98754)
 
 ### iptables
 
